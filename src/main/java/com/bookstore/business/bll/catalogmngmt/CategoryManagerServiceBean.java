@@ -36,7 +36,14 @@ public class CategoryManagerServiceBean{
      * @return identité de la catégorie persistée
      */
     public Long saveCategory(Category category) {
-     return null;
+        try{
+            em.persist(category);
+            em.flush();
+        }catch(IllegalArgumentException e){
+            System.out.println("Got error while saving category");
+        }
+        System.out.println("category saved");
+        return category.getId();
     }
    
     /**
