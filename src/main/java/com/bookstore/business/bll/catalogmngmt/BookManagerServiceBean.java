@@ -38,15 +38,21 @@ public class BookManagerServiceBean {
     * sauvegarder en base l'état d'un livre nouvellement créé
     * @return le livre persisté
     */
-    public Book saveBook(Book book){      
-       return null;
+    public Book saveBook(Book book){
+        try{
+            em.persist(book);
+        }catch(IllegalArgumentException e){
+            System.out.println("Got error while saving book");
+        }
+        System.out.println("book saved");
+        return book;
     }
 
-/**
- * Retourner un livre en fonction d'une identité unique
- * @param bookId id livre recherché
- * @return le livre correspondant à l'id passée en argument
- */
+    /**
+     * Retourner un livre en fonction d'une identité unique
+     * @param bookId id livre recherché
+     * @return le livre correspondant à l'id passée en argument
+     */
     public Book findBookById(Long bookId) {
         return em.find(Book.class, bookId);
     }
