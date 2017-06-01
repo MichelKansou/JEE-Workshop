@@ -5,6 +5,7 @@
 
 package com.bookstore.business.bll.catalogmngmt;
 
+import com.bookstore.business.persistence.catalog.Book;
 import com.bookstore.business.persistence.catalog.Publisher;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -50,7 +51,7 @@ public class PublisherManagerServiceBean{
      * @return l'éditeur recherché
      */
     public Publisher findPublisherById(Long publisherId) {
-      return null;
+        return em.find(Publisher.class, publisherId);
     }
   
 }

@@ -48,7 +48,7 @@ public class BookManagerServiceBean {
  * @return le livre correspondant à l'id passée en argument
  */
     public Book findBookById(Long bookId) {
-       return null;
+        return em.find(Book.class, bookId);
     }
 
  /**
@@ -81,8 +81,15 @@ public class BookManagerServiceBean {
      * @return le livre modifié
      */
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public Book updateBook(Book book) { 
-        return null;
+    public Book updateBook(Book book) {
+        System.out.println("updating book");
+        try{
+            em.merge(book);
+        }catch(IllegalArgumentException e){
+            System.out.println("Got error while updating book");
+        }
+        System.out.println("books updated");
+        return book;
     }
 
 }

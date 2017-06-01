@@ -147,15 +147,15 @@ public class CatalogManagerServiceBean implements CatalogManagerService {
      */
     @Override
     public Book addPublisherToBook(Long bookId, Long publisherId) {
-    //les 2 entitiés sont managées au sein du PC (persistence context)
-    Book  b =  bookManager.findBookById(bookId);
-    Publisher p = publisherManager.findPublisherById(publisherId);
-    //on retourne null si aucun livre ou éditeur ne correspond aux id passés en argument
-    //on aurait pu lever aussi une exception
-    if(b==null || p ==null) return null;
-    p.getBooks().add(b);//instruction optionnelle
-    b.setPublisher(p);//la modification de b va être automatiquement synchronisée avec la base
-    return b;
+        //les 2 entitiés sont managées au sein du PC (persistence context)
+        Book  b =  bookManager.findBookById(bookId);
+        Publisher p = publisherManager.findPublisherById(publisherId);
+        //on retourne null si aucun livre ou éditeur ne correspond aux id passés en argument
+        //on aurait pu lever aussi une exception
+        if(b==null || p ==null) return null;
+        p.getBooks().add(b);//instruction optionnelle
+        b.setPublisher(p);//la modification de b va être automatiquement synchronisée avec la base
+        return b;
     }//l'association est persistée lorsque la transaction est validée (commit) après que la méthode a fini de s'exécuter.
 
     /**
