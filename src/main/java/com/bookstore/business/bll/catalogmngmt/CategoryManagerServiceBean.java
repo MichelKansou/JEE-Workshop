@@ -12,6 +12,8 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.persistence.*;
 
 /**
@@ -63,7 +65,15 @@ public class CategoryManagerServiceBean{
      * @return la liste de catégories n'ayant pas de parents.
      */
     public List<Category> getRootCategories() {
-        return null;
+        String jpql = "SELECT c FROM categories c WHERE c.parentCategory IS NULL";
+        List<Category> result;
+        try{
+            TypedQuery<Category> query = em.createQuery(jpql, Category.class);
+            result = query.getResultList();
+        }catch(IllegalArgumentException e){
+            throw new Error("requête est mal formée " + e);
+        }
+        return result;
     }
 
    /**
@@ -74,7 +84,23 @@ public class CategoryManagerServiceBean{
     * retourne null si aucune catégorie enfant n'est  retrouvée en fonction de parentId
     */
     public List<Category> getchildrenCategories(Long parentId) {
-       return null;
+        String jpql = "SELECT c FROM categories c WHERE c.parentCategory = (:catId)";
+        Category cat = em.find(Category.class,parentId);
+        if (cat != null) {
+            List<Category> result;
+            try{
+                TypedQuery<Category> query = em.createQuery(jpql, Category.class);
+                query.setParameter("catId", cat);
+                result = query.getResultList();
+            }catch(IllegalArgumentException e){
+                throw new Error("requête est mal formée " + e);
+            }
+            return result;
+        }
+        else {
+            FacesContext.getCurrentInstance().addMessage(null,new FacesMessage("Id invalide.","l'id de la catégorie est erronée"));
+            return null;
+        }
     }
 
 }

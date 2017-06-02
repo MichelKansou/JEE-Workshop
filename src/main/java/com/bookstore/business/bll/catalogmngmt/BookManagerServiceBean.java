@@ -80,8 +80,19 @@ public class BookManagerServiceBean {
      */ 
     @TransactionAttribute(TransactionAttributeType.SUPPORTS) //méthode pouvant joindre le contexte transactionnel de l'appelant
     public List<Book> findByCriteria(String pattern) {
-        return null;
-     
+        String jpql = "select l from livres l where l.title like :custReq";
+        pattern = "%"+pattern+"%";
+        List<Book> result = null;
+        System.out.println("Start Searching by pattern");
+        try{
+            TypedQuery<Book> query = em.createQuery(jpql, Book.class);
+            query.setParameter("custReq", pattern);
+            result = query.getResultList();
+            System.out.println(result);
+        }catch(IllegalArgumentException e){
+            System.out.println("requête est mal formée " + e);
+        }
+        return result;
     }
 
     /**
