@@ -50,22 +50,22 @@ public class JPQLTest {
 
     @Test
     public void checkSimpleRequest(){
-        String jpql = "VOTRE REQUETE";
+        String jpql = "select l from livres l";
         try{
-        Query query = em.createQuery(jpql);
+        Query query = em.createQuery(jpql, Book.class);
         List result = query.getResultList();
         assertTrue("votre requête ["+jpql+"] renvoie une liste vide",!result.isEmpty());
         }catch(IllegalArgumentException e){
-            throw new AssertionError("requête ["+jpql+"] est mal formée");
+            throw new AssertionError("requête ["+jpql+"] est mal formée " + e);
         }
         
     }
     
     @Test
     public void checkRequestWithStringParameter(){
-        String jpql = "VOTRE REQUETE PARAMETREE"; //remplacez par votre requête 
-        String param="VALEUR DU PARAMETRE"; //remplacez par la valeur de type %votreChaine% (votre motif de recherche encadré par %)
-        String paramName = "VOTRE PARAMETRE";//remplacez par le nom du paramètre tel qu'il est défini dans votre requête JPQL
+        String jpql = "select l from livres l where l.title like (:custReq)"; //remplacez par votre requête
+        String param="%C#%"; //remplacez par la valeur de type %votreChaine% (votre motif de recherche encadré par %)
+        String paramName = "custReq";//remplacez par le nom du paramètre tel qu'il est défini dans votre requête JPQL
         
         try{
         Query query = em.createQuery(jpql);
@@ -80,12 +80,12 @@ public class JPQLTest {
     @Test
     public void checkRequestWithCategoryParameter(){
         
-        String jpql = "VOTRE REQUETE PARAMETREE";//remplacez par votre requête
+        String jpql = "select c from categories c where c.parentCategory = (:catId)";//remplacez par votre requête
         try{       
             Long catId = 56L; //"ID DE LA CATEGORIE" - remplacez par un id valide
             Category cat = em.find(Category.class,catId);
         
-            String paramName = "NOM DU PARAMETRE"; //remplacez par le nom du paramètre tel qu'il est défini dans votre requête JPQL
+            String paramName = "catId"; //remplacez par le nom du paramètre tel qu'il est défini dans votre requête JPQL
 
             Query query = em.createQuery(jpql);
             query.setParameter(paramName, cat);

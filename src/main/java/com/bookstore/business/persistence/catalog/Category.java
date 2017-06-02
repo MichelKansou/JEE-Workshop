@@ -17,7 +17,7 @@ import java.util.List;
  * 1 requête permet de retrouvée les catégories enfants en fonction d'une catégorie parent<br>
  * 1 requête permet de retrouver les catégories racines / sans parents
  */
-@Entity
+@Entity(name = "categories")
 @Table(name = "categories")
 public class Category implements Serializable {
     private static final long serialVersionUID = 1L;

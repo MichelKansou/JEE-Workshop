@@ -62,8 +62,13 @@ public class BookManagerServiceBean {
  * supprimer un livre
  * @param book le livre a supprimé. Si book est null, l'opération de suppression n'est pas exécutée
  */
-    public void deleteBook(Book book) { 
-      
+    public void deleteBook(Book book) {
+        try{
+            em.remove(book);
+        }catch(IllegalArgumentException e){
+            System.out.println("Got error while removing book");
+        }
+        System.out.println("book removed");
     }
 
     /**

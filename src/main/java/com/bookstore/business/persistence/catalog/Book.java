@@ -17,7 +17,7 @@ import java.util.List;
  * Entité Book mappée sur LIVRES<br>
  * la date de parution utilise l'annotation @Temporal(javax.persistence.TemporalType.DATE)
  */
-@Entity
+@Entity(name = "livres")
 @Table(name = "livres")
 public class Book implements Serializable {
     private static final long serialVersionUID = 1L;

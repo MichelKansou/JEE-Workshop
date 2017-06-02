@@ -13,7 +13,7 @@ import java.util.List;
  *
  * Entité publisher mappée sur la table éditeur
  */
-@Entity
+@Entity(name = "editeurs")
 @Table(name = "editeurs")
 public class Publisher implements Serializable {
     private static final long serialVersionUID = 1L;
